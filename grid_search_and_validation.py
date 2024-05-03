@@ -15,14 +15,17 @@ X_train, X_test, y_train, y_test = train_test_split(X, y)
 
 random_float = random.uniform(0, 1) 
 random_integer_est = random.randint(100, 1000) 
-random_integer = random.randint(1, 10)
+random_integer = random.randint(4, 10)
 
 gb_classifier = GradientBoostingClassifier(n_estimators=random_integer_est, 
                                            learning_rate=random_float, 
                                            subsample=random_float,
                                            max_depth=random_integer).fit(X_train, y_train)
 
-distributions = dict(C=uniform(0, 4), penalty=['l2', 'l1'])
+distributions = dict(n_estimators=random_integer_est, 
+                                           learning_rate=random_float, 
+                                           subsample=random_float,
+                                           max_depth=random_integer)
 
 randomised_search = RandomizedSearchCV(gb_classifier, distributions, random_state=0)
 randomised_search.fit(X_train, y_train)
