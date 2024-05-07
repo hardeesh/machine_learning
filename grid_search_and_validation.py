@@ -6,11 +6,14 @@ from sklearn.model_selection import train_test_split, RandomizedSearchCV, GridSe
 from sklearn.metrics import mean_squared_error
 from scipy.stats import uniform, randint
 import matplotlib.pyplot as plt
+import time
 
 
 X, y = datasets.load_diabetes(return_X_y=True)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+start_time = time.time()
 
 gb_regressor = GradientBoostingRegressor()
 
@@ -33,3 +36,15 @@ y_pred = best_model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 print("Mean Squared Error:", mse)
 print("Best Hyperparameters:", best_gb_params)
+
+end_time = time.time()
+training_time = end_time - start_time
+print("Training time:", training_time, "seconds")
+
+plt.figure(figsize=(8, 6))
+plt.scatter(y_test, y_pred, color='blue', alpha=0.5)
+plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color='red', linestyle='--')
+plt.xlabel('True Values')
+plt.ylabel('Predicted Values')
+plt.title('True vs Predicted Values (Gradient Boosting Regressor)')
+plt.show()
