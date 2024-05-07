@@ -6,11 +6,14 @@ from sklearn.model_selection import train_test_split, RandomizedSearchCV, GridSe
 from sklearn.metrics import mean_squared_error
 from scipy.stats import uniform, randint
 import matplotlib.pyplot as plt
+import time
 
 
 X, y = datasets.load_diabetes(return_X_y=True)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+start_time = time.time()
 
 distributions = {'n_estimators' : randint(100, 1000),
                 'learning_rate' : uniform(0.01, 0.2),
@@ -33,6 +36,9 @@ mse = mean_squared_error(y_test, y_pred)
 print("Mean Squared Error:", mse)
 print("Best Hyperparameters:", best_gb_params)
 
+end_time = time.time()
+training_time = end_time - start_time
+print("Training time:", training_time, "seconds")
 
 # Plotting true vs predicted values
 plt.figure(figsize=(8, 6))
